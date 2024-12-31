@@ -1,41 +1,75 @@
-NAME = Colleen
-# Netwide Assembler used to compile the assembly code
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+CYAN = \033[1;36m
+RESET = \033[0m
+
+NAME_COLEEN = Colleen
+NAME_GRACE = Grace
+NAME_SULLY = Sully
+
+SRC_COLLEEN = Colleen.s
+SRC_GRACE = Grace.s
+SRC_SULLY = Sully.s
+
+OBJ_DIR = obj
+OBJ_COLEEN = $(OBJ_DIR)/$(SRC_COLEEN:.s=.o)
+OBJ_GRACE = $(OBJ_DIR)/$(SRC_GRACE:.s=.o)
+OBJ_SULLY = $(OBJ_DIR)/$(SRC_SULLY:.s=.o)
+
 ASM = nasm
-# Flags for the assembler
-# -f elf64: specifies the output format as 64-bit ELF
-# -g: adds debugging information to the executable
-# -w+all: enables all warnings
-# -dNOEXECSTACK: specifies that the stack is not executable
 ASMFLAGS = -f elf64 -g -w+all -dNOEXECSTACK
-# Linker used to link the object files
-# The GNU linker takes the .o and combines them into an executable
+
 LD = ld
 LDFLAGS = --dynamic-linker /lib64/ld-linux-x86-64.so.2 -lc -no-pie
 
-SRC = Colleen.s
-OBJ = $(SRC:.s=.o)
+all: colleen grace sully
 
-all: $(NAME)
+colleen: $(NAME_COLLEEN)
 
-$(NAME): $(OBJ)
-	@$(LD) $(OBJ) -o $(NAME) $(LDFLAGS)
-	@echo "Program $(NAME) created!"
+grace: $(NAME_GRACE)
 
-$(OBJ): $(SRC)
-	@$(ASM) $(ASMFLAGS) $(SRC) -o $(OBJ)
-	@echo "Assembly file compiled"
+sully: $(NAME_SULLY)
+
+$(NAME_COLLEEN): $(OBJ_COLLEEN)
+	@printf "$(CYAN)Linking $@... $(RESET)\n"
+	@$(LD) $(LDFLAGS) -o $@ $^
+
+$(NAME_GRACE): $(OBJ_GRACE)
+	@printf "$(CYAN)Linking $@... $(RESET)\n"
+	@$(LD) $(LDFLAGS) -o $@ $^
+
+$(NAME_SULLY): $(OBJ_SULLY)	
+	@printf "$(CYAN)Linking $@... $(RESET)\n"
+	@$(LD) $(LDFLAGS) -o $@ $^
+
+$(OBJ_DIR)/%.o: %.s | $(OBJ_DIR)
+	@printf "$(CYAN)Compiling $<... $(RESET)\n"
+	@$(ASM) $(ASMFLAGS) $< -o $@
+	@printf "$(GREEN)Done!$(RESET)\n"
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@printf "$(YELLOW)Created directory $(OBJ_DIR).$(RESET)\n"
 
 clean:
-	@echo "Cleaning up..."
-	@rm -f $(OBJ)
+	@printf "$(YELLOW)Cleaning object files... $(RESET)\n"
+	@rm -rf $(OBJ_DIR)
+	@printf "$(GREEN)Object files and directory removed.$(RESET)\n"
 
 fclean: clean
-	@echo "Removing $(NAME)..."
-	@rm -f $(NAME)
+	@printf "$(YELLOW)Removing $(NAME_COLLEEN)... $(RESET)\n"
+	@rm -f $(NAME_COLLEEN)
+	@printf "$(GREEN)Executable removed.$(RESET)\n"
+	@printf "$(YELLOW)Removing $(NAME_GRACE)... $(RESET)\n"
+	@rm -f $(NAME_GRACE)
+	@printf "$(GREEN)Executable removed.$(RESET)\n"
+	@printf "$(YELLOW)Removing $(NAME_SULLY)... $(RESET)\n"
+	@rm -f $(NAME_SULLY)
+	@printf "$(GREEN)Executable removed.$(RESET)\n"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all colleen grace sully clean fclean re
 
 
 # ELF formats ("Executable and Linkable Format"):
