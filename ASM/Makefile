@@ -62,9 +62,11 @@ fclean: clean
 	@printf "$(GREEN)Executable removed.$(RESET)\n"
 	@printf "$(YELLOW)Removing $(NAME_GRACE)... $(RESET)\n"
 	@rm -f $(NAME_GRACE)
+	@rm -f Grace_kid.s
 	@printf "$(GREEN)Executable removed.$(RESET)\n"
 	@printf "$(YELLOW)Removing $(NAME_SULLY)... $(RESET)\n"
 	@rm -f $(NAME_SULLY)
+	@rm -f Sully_*
 	@printf "$(GREEN)Executable removed.$(RESET)\n"
 
 re: fclean all
