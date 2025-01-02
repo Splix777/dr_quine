@@ -1,0 +1,9 @@
+services:
+  dr_quine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dr_quine
+    volumes:
+      - .:/app
+    tty: true
