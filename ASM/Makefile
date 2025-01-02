@@ -3,7 +3,7 @@ YELLOW = \033[1;33m
 CYAN = \033[1;36m
 RESET = \033[0m
 
-NAME_COLEEN = Colleen
+NAME_COLLEEN = Colleen
 NAME_GRACE = Grace
 NAME_SULLY = Sully
 
@@ -12,7 +12,7 @@ SRC_GRACE = Grace.s
 SRC_SULLY = Sully.s
 
 OBJ_DIR = obj
-OBJ_COLEEN = $(OBJ_DIR)/$(SRC_COLEEN:.s=.o)
+OBJ_COLLEEN = $(OBJ_DIR)/$(SRC_COLLEEN:.s=.o)
 OBJ_GRACE = $(OBJ_DIR)/$(SRC_GRACE:.s=.o)
 OBJ_SULLY = $(OBJ_DIR)/$(SRC_SULLY:.s=.o)
 
@@ -29,6 +29,48 @@ colleen: $(NAME_COLLEEN)
 grace: $(NAME_GRACE)
 
 sully: $(NAME_SULLY)
+
+test: test_colleen test_grace test_sully
+
+test_colleen: colleen
+	@printf "$(CYAN)Running $<... $(RESET)\n"
+	@if ./$(NAME_COLLEEN) | diff - $(SRC_COLLEEN); then \
+		printf "$(GREEN)Test passed!$(RESET)\n"; \
+	else \
+		printf "$(RED)Test failed! Differences:$(RESET)\n"; \
+		./$(NAME_COLLEEN) | diff - $(SRC_COLLEEN); \
+	fi
+
+test_grace: grace
+	@printf "$(CYAN)Running $<... $(RESET)\n"
+	@if ./$(NAME_GRACE) && diff $(SRC_GRACE) Grace_kid.s; then \
+		printf "$(GREEN)Test passed!$(RESET)\n"; \
+	else \
+		printf "$(RED)Test failed! Differences:$(RESET)\n"; \
+		diff $(SRC_GRACE) Grace_kid.s; \
+	fi
+
+test_sully: sully
+	@printf "$(CYAN)Running Sully tests... $(RESET)\n"
+	@success=1; \
+	./$(NAME_SULLY); \
+	for i in 4 3 2 1 0; do \
+		expected_file=Sully_$$i.s; \
+		normalized_expected=$(SRC_SULLY).normalized; \
+		normalized_output=$$expected_file.normalized; \
+		sed 's/^\s*x dd .*/x dd [ignored]/' $(SRC_SULLY) > $$normalized_expected; \
+		sed 's/^\s*x dd .*/x dd [ignored]/' $$expected_file > $$normalized_output; \
+		if ! diff $$normalized_expected $$normalized_output; then \
+			printf "$(RED)Test failed for $$expected_file!$(RESET)\n"; \
+			success=0; \
+		fi; \
+		rm -f $$normalized_expected $$normalized_output; \
+	done; \
+	if [ $$success -eq 1 ]; then \
+		printf "$(GREEN)All Sully tests passed!$(RESET)\n"; \
+	else \
+		printf "$(RED)Some Sully tests failed!$(RESET)\n"; \
+	fi
 
 $(NAME_COLLEEN): $(OBJ_COLLEEN)
 	@printf "$(CYAN)Linking $@... $(RESET)\n"
@@ -71,7 +113,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all colleen grace sully clean fclean re
+.PHONY: all colleen grace sully test test_colleen test_grace test_sully clean fclean re
 
 
 # ELF formats ("Executable and Linkable Format"):
