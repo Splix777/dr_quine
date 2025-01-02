@@ -1,10 +1,8 @@
-# Docker-related variables
 DOCKER_COMPOSE = docker compose
 SERVICE_NAME = dr_quine
 
 all: build up exec
 
-# Targets
 build:
 	@echo "Building the Docker image..."
 	@$(DOCKER_COMPOSE) build
@@ -30,4 +28,4 @@ clean:
 	@$(DOCKER_COMPOSE) down --volumes --remove-orphans
 	@docker system prune -f
 
-.PHONY: build up down exec logs clean
+.PHONY: all build up down exec logs clean
