@@ -11,6 +11,7 @@
 - [Grace](#grace)
 - [Sully](#sully)
 - [Instructions](#instructions)
+- [Bonus](#bonus)
 
 # The Recursion Theorem of Kleene
 
@@ -112,3 +113,6 @@ This project includes a Docker setup to ensure consistent development environmen
     ```bash
     make
     ```
+
+# Bonus
+The only Bonus accepted during the evaluation is to have redone this project entirely in the language of your choice. In my case I have chosen python. This is located in the bonus dir with it's corresponding Makefile.
