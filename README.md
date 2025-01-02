@@ -10,6 +10,7 @@
 - [Colleen](#colleen)
 - [Grace](#grace)
 - [Sully](#sully)
+- [Instructions](#instructions)
 
 # The Recursion Theorem of Kleene
 
@@ -75,3 +76,39 @@ $> ls -al | grep Sully | wc -l
 ## Conclusion
 
 This project not only challenges your understanding of code execution and self-reference but also introduces you to advanced macro usage and assembly programming in C. Remember, directly reading and displaying source code or using command-line arguments are considered cheating in this context. Enjoy the journey into the heart of programming with Dr_Quine!
+
+# Instructions
+
+## Cloning the Repository
+
+To get started with `Dr_Quine`, clone the repository:
+
+```bash
+git clone https://github.com/Splix777/dr_quine.git
+cd dr_quine
+```
+
+## Using Docker
+This project includes a Docker setup to ensure consistent development environments. Here's how to use it:
+
+- **Docker Commands**
+    - Build the Docker Image:
+    ```bash
+    make build
+    ```
+    - Start the Docker Container
+    ```bash
+    make up
+    ```
+    - Stop the Container
+    ```bash
+    make down
+    ```
+    - Clean Up (remove containers, volumes and prune Docker)
+    ```bash
+    make clean
+    ```
+    - Build and enter the container all done with a simple make
+    ```bash
+    make
+    ```
