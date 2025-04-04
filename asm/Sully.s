@@ -20,7 +20,7 @@ section .text
 _start:
     mov eax, [x]
     test eax, eax
-    jl exit_prog  ; Changed from jle to jl for inclusivity down to x = 0
+    jl exit_prog
 
     lea rdi, [rel filename]
     lea rsi, [rel filename_fmt]
