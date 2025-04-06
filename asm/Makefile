@@ -22,6 +22,7 @@ ASMFLAGS = -f elf64 -g -w+all -dNOEXECSTACK
 LD = ld
 LDFLAGS = --dynamic-linker /lib64/ld-linux-x86-64.so.2 -lc -no-pie
 
+
 all: colleen grace sully
 
 colleen: $(NAME_COLLEEN)
