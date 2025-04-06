@@ -5,7 +5,7 @@
 <img src="docs/readme_images/ouroboros.png" alt="Ouroboros" width="25%">
 </div>
 
-# Table of Contents
+# Table of Contents..
 - [The Recursion Theorem of Kleene](#the-recursion-theorem-of-kleene)
 - [Colleen](#colleen)
 - [Grace](#grace)
